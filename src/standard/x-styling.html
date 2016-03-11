@@ -11,6 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../lib/settings.html">
 <link rel="import" href="../lib/style-defaults.html">
 <link rel="import" href="../lib/style-cache.html">
+<link rel="import" href="../lib/style-util.html">
 <script>
   (function() {
     'use strict';
@@ -20,6 +21,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     var propertyUtils = Polymer.StyleProperties;
     var styleTransformer = Polymer.StyleTransformer;
     var styleDefaults = Polymer.StyleDefaults;
+    var styleUtil = Polymer.StyleUtil;
 
     var nativeShadow = Polymer.Settings.useNativeShadow;
 
@@ -28,9 +30,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _prepStyleProperties: function() {
         // note: an element should produce an x-scope stylesheet
         // if it has any _stylePropertyNames
+        if (styleUtil.HAS_NATIVE_VARIABLES) {
+          this._ownStylePropertyNames = null;
+            
+        } else {
         this._ownStylePropertyNames = this._styles && this._styles.length ?
           propertyUtils.decorateStyles(this._styles) :
           null;
+        }
       },
 
       /**
@@ -47,7 +54,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
      * @return {String} the computed value
      */
       getComputedStyleValue: function(property) {
-        return this._styleProperties && this._styleProperties[property] ||
+        return !styleUtil.HAS_NATIVE_VARIABLES && this._styleProperties &&
+          this._styleProperties[property] ||
           getComputedStyle(this).getPropertyValue(property);
       },
 
