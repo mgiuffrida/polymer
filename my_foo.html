@@ -1,0 +1,19 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="my-foo">
+  <template>
+    <div>Hello, world</div>
+  </template>
+</dom-module>
+
+<script>
+Polymer({
+  is: 'my-foo',
+  attached: function() {
+    console.log('offsetParent in attached', this.offsetParent);
+    setTimeout(function() {
+      console.log('offsetParent later', this.offsetParent);
+    }.bind(this), 1000);
+  },
+});
+</script>

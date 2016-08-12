@@ -44,9 +44,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     _catchFirstRender: function() {
-      requestAnimationFrame(function() {
-        Polymer.RenderStatus._makeReady();
-      });
+      if (!Polymer.Settings.waitForLoad || document.readyState == 'complete') {
+	requestAnimationFrame(function() {
+	  Polymer.RenderStatus._makeReady();
+	});
+      } else {
+	window.addEventListener('load', function() {
+	  Polymer.RenderStatus._makeReady();
+	});
+      }
     },
 
     _afterNextRenderQueue: [],

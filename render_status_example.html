@@ -1,0 +1,12 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="my_foo.html">
+
+<my-foo></my-foo>
+
+<script>
+  Polymer.RenderStatus.whenReady(function() {
+    console.log('readyState', document.readyState);
+  });
+</script>
+
+<link rel="import" href="my_foo2.html"> <!-- wait on another import -->
